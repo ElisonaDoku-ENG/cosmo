@@ -1,0 +1,116 @@
+/* Full-screen black background */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #000;
+}
+
+.eye-container {
+  display: flex;
+  justify-content: space-around;
+  width: 320px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 20%; /* Adjust height to cover the top part */
+  background-color: #000; /* Match background */
+  z-index: 2; /* Ensure it is above the eyes */
+}
+
+.eye {
+  width: 140px;
+  height: 140px;
+  background-color: #fff;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Angry state style */
+.eye.angry {
+  background-color: #f00; /* Red color for angry */
+}
+
+/* Default state of the eyelid - invisible */
+.eye::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 90%;
+  background-color: #000;
+  top: -50%;
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Static black eyelids for left and right eyes in angry mode */
+.left-eye.black-eyelids::before {
+  opacity: 1;
+  height: 80%;
+  width: 200%;
+  top: -5%;
+  left: -10%;
+  transform: rotate(20deg);
+  border-radius: 0; /* Sharp, straight edges */
+}
+
+.right-eye.black-eyelids::before {
+  opacity: 1;
+  height: 80%;
+  width: 290px;
+  top: -70%;
+  left: -20%;
+  transform: rotate(-20deg);
+  border-radius: 0; /* Sharp, straight edges */
+}
+
+/* Blinking Animation - only applies to .eye element, not eyelids */
+@keyframes blink {
+  0%, 17%, 34%, 51%, 68%, 100% { height: 140px; } /* Fully open */
+
+  /* Single blink at 4s */
+  8%, 12% { height: 20px; } /* Close the eye */
+
+  /* Double blink at 7s */
+  75%, 79% { height: 20px; } /* Close the eye */
+  82%, 86% { height: 20px; } /* Close the eye */
+}
+
+/* Only blink if not resting, applied only to the eye */
+.eye.blinking:not(.resting) {
+  animation: blink 4s infinite;
+}
+
+/* Ensure eyelid pseudo-elements do not animate with blink */
+
+/* Input container styling */
+.input-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Input box styling */
+#commandInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+  outline: none;
+}
